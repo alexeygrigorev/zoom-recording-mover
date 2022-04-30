@@ -26,16 +26,26 @@ Set RUN_PATH=%CD%\run.bat
 
 schtasks /create ^
     /tn zoom-move-recording ^
-    /sc hourly ^
-    /st 00:05 ^
+    /sc daily ^
+    /st 09:30 ^
     /tr %RUN_PATH%
 ```
 
 Running it hourly:
 
 ```batch
+Set RUN_PATH=%CD%\run.bat
 
-
+schtasks /create ^
+    /tn zoom-move-recording ^
+    /sc hourly ^
+    /st 00:05 ^
+    /tr %RUN_PATH%
 ```
+
+Some other useful stuff: 
+
+* https://pureinfotech.com/prevent-command-window-appearing-scheduled-tasks-windows-10/
+
 
 That's all!
