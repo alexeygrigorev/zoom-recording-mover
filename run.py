@@ -6,17 +6,15 @@ import ctypes
 from datetime import datetime
 from pathlib import Path
 
-zoom_videos = Path.home() / 'Documents' / 'zoom'
+home = Path.home()
 
-test = False
-if test:
-    dropbox_dest = Path.home() / 'tmp' / 'Dropbox' / 'podcast'
-else:
-    dropbox_dest = Path.home() / 'Dropbox' / 'podcast'
+zoom_videos = home / 'Documents' / 'zoom'
+dropbox_dest = home / 'Dropbox' / 'podcast-new'
 
 
 def mbox(title, text, style):
     return ctypes.windll.user32.MessageBoxW(0, text, title, style)
+
 
 def mbox_ok_cancel(title, text):
     resp = mbox(title, text, 1)
@@ -49,7 +47,7 @@ def should_be_processed(last_folder):
     if not file_exists(audio):
         print(f'folder "{last_folder.name}" contains no audio')
         return False
-    
+
     size_mb = folder_size(audio)
     if size_mb <= 90:
         print(f'folder "{last_folder.name}" size too small: {size_mb:.2f} mb')
@@ -84,13 +82,13 @@ def main():
     target_folder_name = f'{prefix}-{guest_name}'
     target_folder = dropbox_dest / target_folder_name
 
-    response = mbox_ok_cancel(
-        title='Moving zoom recording',
-        text=f'Moving "{last_folder.name}" to "{target_folder}". Proceed?'
-    )
+    #response = mbox_ok_cancel(
+    #    title='Moving zoom recording',
+    #    text=f'Moving "{last_folder.name}" to "{target_folder}". Proceed?'
+    #)
 
-    if response != "ok":
-        return
+    #if response != "ok":
+    #    return
 
     audio_records.rename(target_folder)
     (last_folder / 'processed').touch()

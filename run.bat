@@ -1,4 +1,4 @@
-Set PYTHON=%HomeDrive%%HomePath%\Anaconda3\python.exe
+Set PYTHON=%HomeDrive%\soft\Python311\python
 
 cd %HomeDrive%%HomePath%\git\move_zoom_recording
 
