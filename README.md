@@ -1,51 +1,64 @@
 ## Move Zoom Recording
 
-I was tired manually moving the recording of the podcast to Dropbox
-so I decided to automate it
+A simple script that automatically moves Zoom podcast recordings
+to a Dropbox folder. It finds the most recent recording in
+`~/Documents/zoom`, extracts the guest name from the audio files,
+and moves the audio to `~/Dropbox/podcast/<date>-<guest>`.
 
-It works for Windows only. For Linux / MacOS you'll need 
-to modify the code for showing messages
+Folders that have already been processed or that are too small
+(under 90 MB) are skipped.
+
+Windows only. For Linux/macOS you'll need to replace the Windows
+message box calls.
 
 ### Clone the repo
 
 ```bash
-git clone git@gist.github.com:bdedd854cf6df69879fb153543f1a5c9.git move_zoom_recording
+git clone git@github.com:alexeygrigorev/zoom-recording-mover.git
 ```
+
+### Configure
+
+Edit `run.py` to set the source and destination paths:
+
+* `zoom_videos` - where Zoom saves recordings (default: `~/Documents/zoom`)
+* `dropbox_dest` - where to move audio files (default: `~/Dropbox/podcast`)
 
 ### Schedule it
 
-Modidy `run.bat`:
-
-* Set full path to your Python interpreter
-* Set full path to `pun.py`
-
-Next, schedule it:
+From the repo directory, schedule it to run hourly:
 
 ```batch
-Set RUN_PATH=%CD%\run.bat
-
-schtasks /create ^
-    /tn zoom-move-recording ^
-    /sc daily ^
-    /st 09:30 ^
-    /tr %RUN_PATH%
-```
-
-Running it hourly:
-
-```batch
-Set RUN_PATH=%CD%\run.bat
-
 schtasks /create ^
     /tn zoom-move-recording ^
     /sc hourly ^
     /st 00:05 ^
-    /tr %RUN_PATH%
+    /tr "%CD%\run.bat"
 ```
 
-Some other useful stuff: 
+Or run it daily at a specific time:
 
-* https://pureinfotech.com/prevent-command-window-appearing-scheduled-tasks-windows-10/
+```batch
+schtasks /create ^
+    /tn zoom-move-recording ^
+    /sc daily ^
+    /st 09:30 ^
+    /tr "%CD%\run.bat"
+```
 
+To delete the scheduled task:
 
-That's all!
+```batch
+schtasks /delete /tn zoom-move-recording /f
+```
+
+To check if it's scheduled:
+
+```batch
+schtasks /query /tn zoom-move-recording
+```
+
+### Tips
+
+* To prevent the command window from appearing when the task runs, see
+  https://pureinfotech.com/prevent-command-window-appearing-scheduled-tasks-windows-10/

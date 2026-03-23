@@ -9,7 +9,7 @@ from pathlib import Path
 home = Path.home()
 
 zoom_videos = home / 'Documents' / 'zoom'
-dropbox_dest = home / 'Dropbox' / 'podcast-new'
+dropbox_dest = home / 'Dropbox' / 'podcast'
 
 
 def mbox(title, text, style):
