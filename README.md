@@ -26,14 +26,15 @@ Edit `run.py` to set the source and destination paths:
 
 ### Schedule it
 
-From the repo directory, schedule it to run hourly:
+From the repo directory, schedule it to run hourly using `run.vbs`
+(a wrapper that runs `run.bat` without showing a terminal window):
 
 ```batch
 schtasks /create ^
     /tn zoom-move-recording ^
     /sc hourly ^
     /st 00:05 ^
-    /tr "%CD%\run.bat"
+    /tr "%CD%\run.vbs"
 ```
 
 Or run it daily at a specific time:
@@ -43,7 +44,7 @@ schtasks /create ^
     /tn zoom-move-recording ^
     /sc daily ^
     /st 09:30 ^
-    /tr "%CD%\run.bat"
+    /tr "%CD%\run.vbs"
 ```
 
 To delete the scheduled task:
@@ -60,5 +61,5 @@ schtasks /query /tn zoom-move-recording
 
 ### Tips
 
-* To prevent the command window from appearing when the task runs, see
-  https://pureinfotech.com/prevent-command-window-appearing-scheduled-tasks-windows-10/
+* If you use `run.bat` directly instead of `run.vbs`, a terminal window
+  will briefly appear each time the task runs. Use `run.vbs` to avoid this.
